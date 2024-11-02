@@ -106,7 +106,16 @@ Texture2D ResourceManager::loadTextureFromFile(const char *file, bool alpha)
     }
     // load image
     int width, height, nrChannels;
-    unsigned char* data = stbi_load(file, &width, &height, &nrChannels, 0);
+    unsigned char* data;
+    try
+    {
+        data = stbi_load(file, &width, &height, &nrChannels, 0);
+    }
+    catch (std::exception e)
+    {
+        std::cout << "ERROR::SHADER: Load texture failed ! " << std::endl;
+    }
+
     // now generate texture
     texture.Generate(width, height, data);
     // and finally free image data
