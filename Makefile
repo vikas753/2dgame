@@ -1,1 +1,1 @@
-g++ mainClass.cpp game.cpp shader_class.cpp texture_class.cpp resource_manager.cpp glad/src/glad.c -I$(brew --prefix)/include -L$(brew --prefix)/lib -lglfw  -I../glfw/include -Iglad/include -framework OpenGL
+g++ -std=c++11 mainClass.cpp game_object.cpp game_level.cpp game.cpp shader_class.cpp texture_class.cpp resource_manager.cpp sprite_renderer.cpp glad/src/glad.c -I$(brew --prefix)/include -L$(brew --prefix)/lib -lglfw  -I../glfw/include -Iglad/include -framework OpenGL
