@@ -2,7 +2,7 @@
 #define _GAME_LEVEL_H
 
 #include "game_object.h"
-#include "sprite_renderer.h"
+#include "basic_renderer.h"
 
 class GameLevel
 {

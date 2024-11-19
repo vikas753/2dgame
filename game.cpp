@@ -8,12 +8,12 @@
 ******************************************************************/
 #include "game.h"
 #include "resource_manager.h"
-#include "sprite_renderer.h"
+#include "basic_renderer.h"
 #include "game_object.h"
 #include "game_level.h"
 
 // Game-related State data
-SpriteRenderer  *Renderer;
+BasicRenderer  *Renderer;
 GameObject      *Player;
 
 Game::Game(unsigned int width, unsigned int height) 
@@ -31,17 +31,17 @@ Game::~Game()
 void Game::Init()
 {
     // load shaders
-    ResourceManager::LoadShader("shaders/sprite.vs", "shaders/sprite.frag", nullptr, "sprite");
-    ResourceManager::LoadShader("shaders/block.vs", "shaders/block.frag", nullptr, "block");
+    ResourceManager::LoadShader("shaders/basic.vs", "shaders/basic.frag", nullptr, "basic");
+    ResourceManager::LoadShader("shaders/level.vs", "shaders/level.frag", nullptr, "block");
 
     // configure shaders
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(this->Width), 
         static_cast<float>(this->Height), 0.0f, -1.0f, 1.0f);
-    ResourceManager::GetShader("sprite").Use().SetInteger("image", 0);
-    ResourceManager::GetShader("sprite").SetMatrix4("projection", projection);
+    ResourceManager::GetShader("basic").Use().SetInteger("image", 0);
+    ResourceManager::GetShader("basic").SetMatrix4("projection", projection);
 
     // set render-specific controls
-    Renderer = new SpriteRenderer(ResourceManager::GetShader("sprite"));
+    Renderer = new BasicRenderer(ResourceManager::GetShader("basic"));
     // load textures
     ResourceManager::LoadTexture("textures/background.jpg", false, "background");
     ResourceManager::LoadTexture("textures/awesomeface.png", true, "face");
@@ -59,13 +59,13 @@ void Game::Init()
     GameLevel three; three.Load("levels/three.lvl", this->Width, this->Height / 2);
     GameLevel four; four.Load("levels/four.lvl", this->Width, this->Height / 2);
     this->Levels.push_back(one);
-    //this->Levels.push_back(two);
-    //this->Levels.push_back(three);
-    //this->Levels.push_back(four);
+    this->Levels.push_back(two);
+    this->Levels.push_back(three);
+    this->Levels.push_back(four);
     this->Level = 0;
     // configure game objects
     glm::vec2 playerPos = glm::vec2(this->Width / 2.0f - PLAYER_SIZE.x / 2.0f, this->Height - PLAYER_SIZE.y);
-    //Player = new GameObject(playerPos, PLAYER_SIZE, ResourceManager::GetTexture("paddle"));
+    Player = new GameObject(playerPos, PLAYER_SIZE, ResourceManager::GetTexture("paddle"));
 }
 
 void Game::Update(float dt)
@@ -97,10 +97,10 @@ void Game::Render()
     if(this->State == GAME_ACTIVE)
     {
         // draw background
-        Renderer->DrawSprite(ResourceManager::GetTexture("background"), glm::vec2(0.0f, 0.0f), glm::vec2(this->Width, this->Height), 0.0f);
+        Renderer->DrawBasic(ResourceManager::GetTexture("background"), glm::vec2(0.0f, 0.0f), glm::vec2(this->Width, this->Height), 0.0f);
         // draw level
         this->Levels[this->Level].Draw(glm::vec2(0.0f, 0.0f), glm::vec2(this->Width, this->Height), 0.0f);
         // draw player
-        //Player->Draw(*Renderer);
+        Player->Draw(Renderer);
     }
 }

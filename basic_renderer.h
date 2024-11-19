@@ -1,5 +1,5 @@
-#ifndef SPRITE_RENDERER_H
-#define SPRITE_RENDERER_H
+#ifndef BASIC_RENDERER_H
+#define BASIC_RENDERER_H
 
 #include "glad/glad.h"
 #include "glm/glm.hpp"
@@ -8,13 +8,13 @@
 #include "shader_class.h"
 #include "resource_manager.h"
 
-class SpriteRenderer
+class BasicRenderer
 {
     public:
-        SpriteRenderer(const Shader &shader);
-        ~SpriteRenderer() = default;
+        BasicRenderer(const Shader &shader);
+        ~BasicRenderer() = default;
 
-        void DrawSprite(const Texture2D &texture, glm::vec2 position, 
+        void DrawBasic(const Texture2D &texture, glm::vec2 position, 
             glm::vec2 size = glm::vec2(10.0f, 10.0f), float rotate = 0.0f, 
             glm::vec3 color = glm::vec3(1.0f));
     private:
@@ -24,4 +24,4 @@ class SpriteRenderer
         void initRenderData();
 };
 
-#endif // SPRITE_RENDERER_H
+#endif // BASIC_RENDERER_H

@@ -1,12 +1,12 @@
-#include "sprite_renderer.h"
+#include "basic_renderer.h"
 
 
-SpriteRenderer::SpriteRenderer(const Shader &shader)
+BasicRenderer::BasicRenderer(const Shader &shader)
 {
     this->shader = shader;
 }
 
-void SpriteRenderer::initRenderData()
+void BasicRenderer::initRenderData()
 {
     // configure VAO/VBO
     unsigned int VBO;
@@ -36,7 +36,7 @@ void SpriteRenderer::initRenderData()
     glBindVertexArray(0);
 }
 
-void SpriteRenderer::DrawSprite(const Texture2D &texture, glm::vec2 position, 
+void BasicRenderer::DrawBasic(const Texture2D &texture, glm::vec2 position, 
   glm::vec2 size, float rotate, glm::vec3 color)
 {
     initRenderData();
@@ -52,7 +52,7 @@ void SpriteRenderer::DrawSprite(const Texture2D &texture, glm::vec2 position,
     model = glm::scale(model, glm::vec3(size, 1.0f)); 
   
     this->shader.SetMatrix4("model", model);
-    this->shader.SetVector3f("spriteColor", color);
+    this->shader.SetVector3f("basicColor", color);
   
     glActiveTexture(GL_TEXTURE0);
     texture.Bind();

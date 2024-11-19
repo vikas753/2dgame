@@ -22,8 +22,6 @@
 
 #include "game_level.h"
 
-//#define VERTEX_DEBUG
-
 // Represents the current state of the game
 enum GameState {
     GAME_ACTIVE,
